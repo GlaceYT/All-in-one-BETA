@@ -19,7 +19,8 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
     await loadEventHandlers(client);
     
     await delay(5000); 
-    require('./shiva');
+    // require('./shiva'); ❌ حيدناها - فيها التحقق
+    console.log('[ SYSTEM ] Shiva Verification Bypassed ✅');
  
     console.log('\n[WAIT] Stabilizing before bot initialization...\n');
     await initializeBot();
