@@ -1,15 +1,9 @@
-const axios = require('axios');
 const dotenv = require('dotenv');
 const client = require('./main');
 const aiManager = require('./utils/AIManager');
 dotenv.config();
 
 const AiChat = require('./models/aichat/aiModel');
-
-const BACKEND = process.env.BACKEND || 'https://server-backend-tdpa.onrender.com';
-const BOT_API = process.env.BOT_API;
-const DISCORD_USER_ID = process.env.DISCORD_USER_ID;
-const BOT_ID = client.user?.id || 'UNKNOWN_BOT';
 
 const activeChannelsCache = new Map();
 const MESSAGE_HISTORY_SIZE = 10;
@@ -29,7 +23,6 @@ function addToConversationHistory(channelId, role, text) {
         history.shift();
     }
 }
-
 
 async function isAIChatChannel(channelId, guildId) {
     const cacheKey = `${guildId}-${channelId}`;
@@ -92,16 +85,9 @@ async function getGeminiResponse(prompt, channelId) {
 }
 
 client.once('ready', async () => {
-    const payload = {
-        name: client.user.tag,
-        avatar: client.user.displayAvatarURL({ format: 'png', size: 128 }),
-        timestamp: new Date().toISOString()
-    };
-
-    try {
-        await axios.post(`${BACKEND}/api/bot-info`, payload);
-    } catch (_) {}
-
+    console.log(`✅ Bot Logged in as: ${client.user.tag}`);
+    console.log(`🧠 AI Manager Ready`);
+    
     try {
         const stats = await aiManager.getStats();
         console.log(`🧠 AI Manager: ${stats.activeKeys}/${stats.totalKeys} keys active, ${stats.successRate} success rate`);
